@@ -50,9 +50,9 @@ class Downloader {
             }
             
             if(exists) {
-                dialog.showMessageBoxSync({buttons: ["Yes","No","Cancel"], message: I18.f('REPLACE_FILES_PROMPT')}, (res) => {
-                    if(res === 0) complete();
-                });
+                let res = dialog.showMessageBoxSync({buttons: ["Yes","No","Cancel"], message: I18.f('REPLACE_FILES_PROMPT')});
+                if(res === 0)
+                    complete();
             }
             else {
                 complete();
