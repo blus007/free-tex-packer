@@ -55,6 +55,8 @@ FIXED_SIZE;Auflösung festsetzen:
 FIXED_SIZE_TITLE;Feste Wete für die Bildgröße verwenden
 POWER_OF_TWO;Zweierpotenz:
 POWER_OF_TWO_TITLE;Texturauflösung ist eine Zweierpotenz
+FORCE_SQUARE;Zwang Viereck
+FORCE_SQUARE_TILE;Quadrat-Texturgröße
 PADDING;Abstand:
 PADDING_TITLE;Abstand zwischen den Sprites
 EXTRUDE;Vergrößern:

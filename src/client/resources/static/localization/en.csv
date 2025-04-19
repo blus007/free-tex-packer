@@ -55,6 +55,8 @@ HEIGHT_TITLE;Max texture height
 FIXED_SIZE;Fixed size:
 POWER_OF_TWO;Power of two:
 POWER_OF_TWO_TITLE;Power of two texture size 
+FORCE_SQUARE;Force square
+FORCE_SQUARE_TILE;Squared texture size
 FIXED_SIZE_TITLE;Fixed texture size
 PADDING;Padding:
 PADDING_TITLE;Sprites padding

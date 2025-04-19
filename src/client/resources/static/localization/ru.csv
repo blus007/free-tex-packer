@@ -56,6 +56,8 @@ FIXED_SIZE;Фиксированный размер:
 FIXED_SIZE_TITLE;Фиксированный размер текстуры
 POWER_OF_TWO;Степень двойки:
 POWER_OF_TWO_TITLE;Размер текстуры в степени двойки
+FORCE_SQUARE;Квадрат силы
+FORCE_SQUARE_TILE;Размер текстуры квадрат
 PADDING;Отступы:
 PADDING_TITLE;Отступы между спрайтами в текстуре
 EXTRUDE;Выдавливание:

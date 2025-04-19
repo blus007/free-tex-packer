@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {dialog} = require('electron').remote;
+const {dialog} = require('@electron/remote');
 
 import I18 from '../../utils/I18';
 
@@ -11,7 +11,7 @@ class Downloader {
         let dir = savePath;
         
         if(!dir) {
-            dir = dialog.showOpenDialog({
+            dir = dialog.showOpenDialogSync({
                 properties: ['openDirectory']
             });
         }
@@ -50,7 +50,7 @@ class Downloader {
             }
             
             if(exists) {
-                dialog.showMessageBox({buttons: ["Yes","No","Cancel"], message: I18.f('REPLACE_FILES_PROMPT')}, (res) => {
+                dialog.showMessageBoxSync({buttons: ["Yes","No","Cancel"], message: I18.f('REPLACE_FILES_PROMPT')}, (res) => {
                     if(res === 0) complete();
                 });
             }

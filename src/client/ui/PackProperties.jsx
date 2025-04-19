@@ -85,6 +85,7 @@ class PackProperties extends React.Component {
         data.height = data.height === undefined ? 2048 : data.height;
         data.fixedSize = data.fixedSize === undefined ? false : data.fixedSize;
         data.powerOfTwo = data.powerOfTwo === undefined ? false : data.powerOfTwo;
+        data.forceSqure = data.forceSqure === undefined ? false : data.forceSqure;
         data.padding = data.padding === undefined ? 0 : data.padding;
         data.extrude = data.extrude === undefined ? 0 : data.extrude;
         data.allowRotation = data.allowRotation === undefined ? true : data.allowRotation;
@@ -139,6 +140,7 @@ class PackProperties extends React.Component {
         data.height = Number(ReactDOM.findDOMNode(this.refs.height).value) || 0;
         data.fixedSize = ReactDOM.findDOMNode(this.refs.fixedSize).checked;
         data.powerOfTwo = ReactDOM.findDOMNode(this.refs.powerOfTwo).checked;
+        data.forceSqure = ReactDOM.findDOMNode(this.refs.forceSqure).checked;
         data.padding = Number(ReactDOM.findDOMNode(this.refs.padding).value) || 0;
         data.extrude = Number(ReactDOM.findDOMNode(this.refs.extrude).value) || 0;
         data.allowRotation = ReactDOM.findDOMNode(this.refs.allowRotation).checked;
@@ -169,6 +171,7 @@ class PackProperties extends React.Component {
         ReactDOM.findDOMNode(this.refs.height).value = Number(this.packOptions.height) || 0;
         ReactDOM.findDOMNode(this.refs.fixedSize).checked = this.packOptions.fixedSize;
         ReactDOM.findDOMNode(this.refs.powerOfTwo).checked = this.packOptions.powerOfTwo;
+        ReactDOM.findDOMNode(this.refs.forceSqure).checked = this.packOptions.forceSqure;
         ReactDOM.findDOMNode(this.refs.padding).value = Number(this.packOptions.padding) || 0;
         ReactDOM.findDOMNode(this.refs.extrude).value = Number(this.packOptions.extrude) || 0;
         ReactDOM.findDOMNode(this.refs.allowRotation).checked = this.packOptions.allowRotation;
@@ -373,6 +376,11 @@ class PackProperties extends React.Component {
                             <tr title={I18.f("POWER_OF_TWO_TITLE")}>
                                 <td>{I18.f("POWER_OF_TWO")}</td>
                                 <td><input ref="powerOfTwo" type="checkbox" className="border-color-gray" onChange={this.onPropChanged} defaultChecked={this.packOptions.powerOfTwo ? "checked" : ""} /></td>
+                                <td></td>
+                            </tr>
+                            <tr title={I18.f("FORCE_SQUARE_TILE")}>
+                                <td>{I18.f("FORCE_SQUARE")}</td>
+                                <td><input ref="forceSqure" type="checkbox" className="border-color-gray" onChange={this.onPropChanged} defaultChecked={this.packOptions.forceSqure ? "checked" : ""} /></td>
                                 <td></td>
                             </tr>
                             <tr title={I18.f("PADDING_TITLE")}>

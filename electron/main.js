@@ -4,6 +4,7 @@ const argv = require('optimist').argv;
 const windowStateKeeper = require('electron-window-state');
 const {app, BrowserWindow, ipcMain, Menu, shell} = require('electron');
 const {autoUpdater} = require("electron-updater");
+const remote = require('@electron/remote/main');
 
 let mainWindow;
 let RECENT_PROJECTS = [];
@@ -15,6 +16,7 @@ let CURRENT_PROJECT = "";
 let CURRENT_PROJECT_MODIFIED = false;
 
 function createWindow() {
+    remote.initialize();
 	let w = 1300;
 	let h = 700;
 
@@ -36,8 +38,14 @@ function createWindow() {
         minWidth: w,
         minHeight: h,
         title: "",
-        icon: path.resolve(__dirname, 'www/static/images/icon.png')
+        icon: path.resolve(__dirname, 'www/static/images/icon.png'),
+        webPreferences: {
+            nodeIntegration: true, // 允许渲染进程使用 Node.js
+            contextIsolation: false, // 禁用上下文隔离
+            enableRemoteModule: true // 必须启用
+        }
     });
+    remote.enable(mainWindow.webContents);
 
     mainWindowState.manage(mainWindow);
 
@@ -264,7 +272,8 @@ function buildMenu() {
         ]
     });
     
-    if(argv.env === 'development') {
+    //if(argv.env === 'development') 
+    {
         template.push({label: 'Dev', submenu: [
             {label: 'Console', click: () => mainWindow.webContents.openDevTools()},
             {label: 'Reload', click: () => mainWindow.webContents.reload()}

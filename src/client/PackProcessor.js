@@ -123,6 +123,12 @@ class PackProcessor {
             width = pw;
             height = ph;
         }
+        
+        if (options.forceSqure) {
+            let maxSize = Math.max(width, height);
+            width = maxSize;
+            height = maxSize;
+        }
 
         if (width < minWidth || height < minHeight) {
             if (onError) onError({

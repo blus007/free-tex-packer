@@ -55,6 +55,8 @@ HEIGHT_TITLE;Máximo alto de textura
 FIXED_SIZE;Tamaño fijo:
 POWER_OF_TWO;Potencia de dos:
 POWER_OF_TWO_TITLE;Tamaño de textura en potencia de dos 
+FORCE_SQUARE;cuadrado de fuerza
+FORCE_SQUARE_TILE;Tamaño de textura cuadrado
 FIXED_SIZE_TITLE;Tamaño de textura fija
 PADDING;Separación:
 PADDING_TITLE;Separación entre sprites

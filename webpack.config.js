@@ -3,6 +3,25 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const argv = require('optimist').argv;
 
+const env = {}
+function SetEnv(item) {
+    [key, value] = item.split('=');
+    if (value === undefined)
+        value = true;
+    env[key] = value;
+}
+const envType = typeof(argv.env)
+if (envType === "string") {
+    SetEnv(argv.env)
+} else if (envType === "object") {
+    for (const item of argv.env) {
+        SetEnv(item);
+    }
+}
+for (const item of argv._) {
+    SetEnv(item)
+}
+
 let entry = [
     'babel-polyfill',
     './src/client/index'
@@ -14,8 +33,8 @@ let devtool = 'eval-source-map';
 let output = 'static/js/index.js';
 let debug = true;
 
-let PLATFORM = argv.platform || 'web';
-let NODE_ENV = argv.build ? 'production' : 'development';
+let PLATFORM = env.platform || 'web';
+let NODE_ENV = env.build ? 'production' : 'development';
 
 let target = 'web';
 if (PLATFORM === 'electron') target = 'electron-renderer';
@@ -25,7 +44,7 @@ plugins.push(new webpack.DefinePlugin({
     'PLATFORM': JSON.stringify(PLATFORM)
 }));
 
-if (argv.build) {
+if (env.build) {
     let outputDir;
 
     if (PLATFORM === 'web') {
@@ -36,7 +55,7 @@ if (argv.build) {
         outputDir = '../electron/www/';
     }
 
-    plugins.push(new CopyWebpackPlugin([{from: 'src/client/resources', to: outputDir}]));
+    plugins.push(new CopyWebpackPlugin({patterns:[{from: 'src/client/resources', to: outputDir}]}));
 
     devtool = false;
     output = outputDir + 'static/js/index.js';
@@ -44,7 +63,7 @@ if (argv.build) {
 }
 else {
     entry.push('webpack-dev-server/client?http://localhost:4000');
-    plugins.push(new CopyWebpackPlugin([{from: 'src/client/resources', to: './'}]));
+    plugins.push(new CopyWebpackPlugin({patterns:[{from: 'src/client/resources', to: './'}]}));
 }
 
 let config = {

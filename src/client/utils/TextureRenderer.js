@@ -57,6 +57,12 @@ class TextureRenderer {
             height = ph;
         }
         
+        if (options.forceSqure) {
+            let maxSize = Math.max(width, height);
+            width = maxSize;
+            height = maxSize;
+        }
+        
         return {width, height};
     }
     
