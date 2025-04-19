@@ -171,7 +171,7 @@ class PackProcessor {
         };
 
         let packerClass = options.packer || MaxRectsBinPack;
-        let packerMethod = options.packerMethod || MaxRectsBinPack.methods.BestShortSideFit;
+        let packerMethod = options.packerMethod || MaxRectsBinPack.methods.BestSquareFit;
         let packerCombos = (packerClass === OptimalPacker) ? getAllPackers() : [{ packerClass, packerMethod, allowRotation: options.allowRotation }];
 
         let optimalRes;

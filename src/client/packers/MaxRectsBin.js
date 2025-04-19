@@ -2,6 +2,7 @@ import Packer from "./Packer";
 import Rect from "../math/Rect";
 
 const METHOD = {
+    BestSquareFit: "BestSquareFit",
     BestShortSideFit: "BestShortSideFit",
     BestLongSideFit: "BestLongSideFit",
     BestAreaFit: "BestAreaFit",
@@ -29,12 +30,15 @@ class MaxRectsBin extends Packer {
         return res;
     }
 
-    insert(width, height, method=METHOD.BestShortSideFit) {
+    insert(width, height, method=METHOD.BestSquareFit) {
         let newNode = new Rect();
         let score1 = {value:0};
         let score2 = {value:0};
 
         switch(method) {
+            case METHOD.BestSquareFit:
+                newNode = this._findPositionForNewNodeBestSquareFit(width, height, score1, score2);
+                break;
             case METHOD.BestShortSideFit:
                 newNode = this._findPositionForNewNodeBestShortSideFit(width, height, score1, score2);
                 break;
@@ -119,6 +123,9 @@ class MaxRectsBin extends Packer {
         score1.value = Infinity;
         score2.value = Infinity;
         switch(method) {
+            case METHOD.BestSquareFit:
+                newNode = this._findPositionForNewNodeBestSquareFit(width, height, score1, score2);
+                break;
             case METHOD.BestShortSideFit:
                 newNode = this._findPositionForNewNodeBestShortSideFit(width, height, score1, score2);
                 break;
@@ -187,6 +194,62 @@ class MaxRectsBin extends Packer {
                 }
             }
         }
+        return bestNode;
+    }
+
+    _findPositionForNewNodeBestSquareFit(width, height, bestSide1Fit, bestSide2Fit){
+        console.log("aaa");
+        let freeRectangles = this.freeRectangles;
+        let bestNode = new Rect();
+
+        bestSide1Fit.value = Infinity;
+
+        let rect,
+            leftoverHoriz,
+            leftoverVert,
+            side1Fit,
+            side2Fit;
+
+        for(let i= 0; i < freeRectangles.length; i++) {
+            rect = freeRectangles[i];
+            if (rect.width >= width && rect.height >= height) {
+                leftoverHoriz = rect.x + width;
+                leftoverVert = rect.y + height;
+                side1Fit = Math.max(leftoverHoriz, leftoverVert);
+                side2Fit = Math.min(leftoverHoriz, leftoverVert);
+
+                if (side1Fit < bestSide1Fit.value || (side1Fit == bestSide1Fit.value && side2Fit < bestSide2Fit.value)) {
+                    bestNode.x = rect.x;
+                    bestNode.y = rect.y;
+                    bestNode.width = width;
+                    bestNode.height = height;
+                    bestSide1Fit.value = side1Fit;
+                    bestSide2Fit.value = side2Fit;
+                }
+            }
+
+            let flippedLeftoverHoriz,
+                flippedLeftoverVert,
+                flippedSide1Fit,
+                flippedSide2Fit;
+
+            if (this.allowRotate && rect.width >= height && rect.height >= width) {
+                flippedLeftoverHoriz = rect.x + height;
+                flippedLeftoverVert = rect.y + width;
+                flippedSide1Fit = Math.max(flippedLeftoverHoriz, flippedLeftoverVert);
+                flippedSide2Fit = Math.min(flippedLeftoverHoriz, flippedLeftoverVert);
+
+                if (flippedSide1Fit < bestSide1Fit.value || (flippedSide1Fit == bestSide1Fit.value && flippedSide2Fit < bestSide2Fit.value)) {
+                    bestNode.x = rect.x;
+                    bestNode.y = rect.y;
+                    bestNode.width = height;
+                    bestNode.height = width;
+                    bestSide1Fit.value = flippedSide1Fit;
+                    bestSide2Fit.value = flippedSide2Fit;
+                }
+            }
+        }
+
         return bestNode;
     }
 
@@ -467,6 +530,8 @@ class MaxRectsBin extends Packer {
 
     static getMethodProps(id='') {
         switch(id) {
+            case METHOD.BestSquareFit:
+                return {name: "Best square fit", description: "Positions the Rectangle against the both side of a free Rectangle into which it fits the best."};
             case METHOD.BestShortSideFit:
                 return {name: "Best short side fit", description: "Positions the Rectangle against the short side of a free Rectangle into which it fits the best."};
             case METHOD.BestLongSideFit:
