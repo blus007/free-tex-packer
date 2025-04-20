@@ -289,7 +289,8 @@ function buildMenu() {
 
 function buildShortcuts() {
     const shortcuts = {
-        'F12': () => mainWindow.webContents.toggleDevTools()
+        'F12': () => mainWindow.webContents.toggleDevTools(),
+        'Ctrl+F11': () => mainWindow.webContents.reload()
     };
 
     Object.keys(shortcuts).forEach(key => {
