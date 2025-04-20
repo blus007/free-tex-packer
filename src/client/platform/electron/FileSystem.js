@@ -13,6 +13,10 @@ const IMAGES_EXT = ['jpg', 'png', 'gif'];
 let watcher = null;
 
 class FileSystem {
+    static deepClone(data) {
+        return JSON.parse(JSON.stringify(data))
+    }
+    
     static fixPath(path) {
         return path.split("\\").join("/");
     }
@@ -208,7 +212,7 @@ class FileSystem {
             path = FileSystem.fixPath(path);
 
             try {
-                let outData = JSON.parse(JSON.stringify(data));
+                let outData = FileSystem.deepClone(data);
                 outData = this.absToRelativePath(path, outData)
                 fs.writeFileSync(path, JSON.stringify(outData, null, 2));
                 Controller.updateProject(path);

@@ -34,6 +34,7 @@ class PackProperties extends React.Component {
         this.forceUpdate = this.forceUpdate.bind(this);
         this.selectSavePath = this.selectSavePath.bind(this);
         
+        this.resetPackOptions()
         this.packOptions = this.loadOptions();
         this.loadCustomExporter();
         
@@ -42,6 +43,10 @@ class PackProperties extends React.Component {
     
     static get i() {
         return INSTANCE;
+    }
+    
+    resetPackOptions() {
+        this.packOptions = {};
     }
     
     setOptions(data) {
@@ -69,7 +74,7 @@ class PackProperties extends React.Component {
     applyOptionsDefaults(data) {
         if(!data) data = {};
         
-        data.textureName = data.textureName || "texture";
+        data.textureName = this.packOptions.textureName || data.textureName || "texture";
         data.textureFormat = data.textureFormat || "png";
         data.removeFileExtension = data.removeFileExtension === undefined ? false : data.removeFileExtension;
         data.prependFolderName = data.prependFolderName === undefined ? true : data.prependFolderName;
@@ -80,7 +85,7 @@ class PackProperties extends React.Component {
         data.tinify = data.tinify === undefined ? false : data.tinify;
         data.tinifyKey = data.tinifyKey === undefined ? "" : data.tinifyKey;
         data.fileName = data.fileName || "pack-result";
-        data.savePath = data.savePath || "";
+        data.savePath = this.packOptions.savePath || data.savePath || "";
         data.width = data.width === undefined ? 2048 : data.width;
         data.height = data.height === undefined ? 2048 : data.height;
         data.fixedSize = data.fixedSize === undefined ? false : data.fixedSize;
@@ -99,7 +104,7 @@ class PackProperties extends React.Component {
         let packer = getPackerByType(data.packer);
         let packerMethods = Object.keys(packer.methods);
         for(let method of packerMethods) {
-            if(method == data.packerMethod) {
+            if(method === data.packerMethod) {
                 methodValid = true;
                 break;
             }
@@ -112,7 +117,10 @@ class PackProperties extends React.Component {
     
     saveOptions(force=false) {
         if(PLATFORM === "web" || force) {
-            Storage.save(STORAGE_OPTIONS_KEY, this.packOptions);
+            let options = FileSystem.deepClone(this.packOptions);
+            options.textureName = undefined;
+            options.savePath = undefined;
+            Storage.save(STORAGE_OPTIONS_KEY, options);
         }
     }
 

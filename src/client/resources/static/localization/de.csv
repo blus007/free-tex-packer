@@ -107,6 +107,7 @@ MENU_FILE_PROJECT_LOAD_RECENT;Zuletzt geöffnet
 MENU_FILE_PROJECT_SAVE;Projekt speichern
 MENU_FILE_PROJECT_SAVE_AS;Projekt speichern als...
 MENU_FILE_PREFERENCES_SAVE;Einstellungen speichern
+MENU_FILE_PREFERENCES_LOAD;Einstellungen laden
 MENU_FILE_INSTALL_CLI;CLI installieren
 MENU_FILE_EXIT;Beenden
 MENU_ACTIONS;Bearbeiten

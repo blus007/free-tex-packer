@@ -200,7 +200,7 @@ class PackProcessor {
             //  cloned rects since the array is mutated in applyIdentical()
             let _identical = packerCombos.length > 1 ? identical.map(rect => {
                 for (let rect2 of _rects) {
-                    if (rect.identical.image._base64 == rect2.image._base64) {
+                    if (rect.identical.image._base64 === rect2.image._base64) {
                         return Object.assign({}, rect, { identical: rect2 });
                     }
                 }

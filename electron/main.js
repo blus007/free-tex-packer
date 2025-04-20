@@ -218,6 +218,7 @@ function buildMenu() {
             {label: LOCALE_STRINGS.MENU_FILE_PROJECT_SAVE_AS, actionName: 'project-save-as', click: sendMessage, accelerator: 'CmdOrCtrl+Shift+N'},
             {type: 'separator'},
             {label: LOCALE_STRINGS.MENU_FILE_PREFERENCES_SAVE, actionName: 'preferences-save', click: sendMessage},
+            {label: LOCALE_STRINGS.MENU_FILE_PREFERENCES_LOAD, actionName: 'preferences-load', click: sendMessage},
             {type: 'separator'},
             {label: LOCALE_STRINGS.MENU_FILE_INSTALL_CLI, click: installCLI},
             {type: 'separator'},

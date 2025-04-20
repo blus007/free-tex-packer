@@ -192,6 +192,7 @@ class Project {
         Project.saveChanges(() => {
             FileSystem.terminateWatch();
 
+            PackProperties.i.resetPackOptions();
             PackProperties.i.setOptions(PackProperties.i.loadOptions());
             ImagesList.i.setImages({});
             CURRENT_PROJECT_PATH = "";

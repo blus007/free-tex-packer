@@ -43,6 +43,10 @@ class Controller {
             PackProperties.i.saveOptions(true);
         });
 
+        ipcRenderer.on("preferences-load", (e, payload) => {
+            PackProperties.i.setOptions(PackProperties.i.loadOptions());
+        });
+
         ipcRenderer.on("quit", (e, payload) => {
             Controller.quit();
         });
