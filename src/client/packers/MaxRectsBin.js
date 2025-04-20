@@ -198,7 +198,6 @@ class MaxRectsBin extends Packer {
     }
 
     _findPositionForNewNodeBestSquareFit(width, height, bestSide1Fit, bestSide2Fit){
-        console.log("aaa");
         let freeRectangles = this.freeRectangles;
         let bestNode = new Rect();
 

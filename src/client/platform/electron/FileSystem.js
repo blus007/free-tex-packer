@@ -1,4 +1,5 @@
 const fs = require('fs');
+const pathUtil = require('path');
 const chokidar = require('chokidar');
 const {dialog} = require('@electron/remote');
 
@@ -159,6 +160,40 @@ class FileSystem {
             cb({});
         }
     }
+    
+    static absToRelativePath(projPath, projData) {
+        let saveDir = pathUtil.dirname(projPath);
+        projData.savePath = FileSystem.fixPath(pathUtil.relative(saveDir, projData.savePath));
+        for (let item of projData.images) {
+            item.path = FileSystem.fixPath(pathUtil.relative(saveDir, item.path));
+        }
+        for (let i = 0; i < projData.folders.length; ++i) {
+            projData.folders[i] = FileSystem.fixPath(pathUtil.relative(saveDir, projData.folders[i]));
+        }
+        projData.packOptions.savePath = FileSystem.fixPath(pathUtil.relative(saveDir, projData.packOptions.savePath));
+        return projData;
+    }
+    
+    static relativeToAbsPath(projPath, projData) {
+        let saveDir = pathUtil.dirname(projPath);
+        if (!pathUtil.isAbsolute(projData.savePath)) {
+            projData.savePath = FileSystem.fixPath(pathUtil.resolve(saveDir, projData.savePath));
+        }
+        for (let item of projData.images) {
+            if (pathUtil.isAbsolute(item.path))
+                continue;
+            item.path = FileSystem.fixPath(pathUtil.resolve(saveDir, item.path));
+        }
+        for (let i = 0; i < projData.folders.length; ++i) {
+            if (pathUtil.isAbsolute(projData.folders[i]))
+                continue;
+            projData.folders[i] = FileSystem.fixPath(pathUtil.resolve(saveDir, projData.folders[i]));
+        }
+        if (!pathUtil.isAbsolute(projData.packOptions.savePath)) {
+            projData.packOptions.savePath = FileSystem.fixPath(pathUtil.resolve(saveDir, projData.packOptions.savePath));
+        }
+        return projData;
+    }
 
     static saveProject(data, path = "") {
         let options = {
@@ -173,11 +208,13 @@ class FileSystem {
             path = FileSystem.fixPath(path);
 
             try {
-                fs.writeFileSync(path, JSON.stringify(data, null, 2));
+                let outData = JSON.parse(JSON.stringify(data));
+                outData = this.absToRelativePath(path, outData)
+                fs.writeFileSync(path, JSON.stringify(outData, null, 2));
                 Controller.updateProject(path);
             }
             catch (e) {
-
+                console.log(e);
             }
         }
 
@@ -207,6 +244,7 @@ class FileSystem {
             try {
                 data = fs.readFileSync(path);
                 data = JSON.parse(data);
+                data = this.relativeToAbsPath(path, data);
                 Controller.updateProject(path);
             }
             catch (e) { data = null }
