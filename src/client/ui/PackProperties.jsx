@@ -444,7 +444,7 @@ class PackProperties extends React.Component {
                             </tr>
                             <tr title={I18.f("PACKER_METHOD_TITLE")}>
                                 <td>{I18.f("PACKER_METHOD")}</td>
-                                <td><PackerMethods ref="packerMethod" packer={this.state.packer} defaultMethod={this.packOptions.packerMethod} handler={this.onPropChanged}/></td>
+                                <td><PackerMethods ref="packerMethod" packer={this.packOptions.packer} defaultMethod={this.packOptions.packerMethod} handler={this.onPropChanged}/></td>
                                 <td></td>
                             </tr>
                         </tbody>
