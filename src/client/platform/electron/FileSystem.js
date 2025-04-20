@@ -13,6 +13,20 @@ const IMAGES_EXT = ['jpg', 'png', 'gif'];
 let watcher = null;
 
 class FileSystem {
+    static isApp() {
+        return true;
+    }
+    
+    static isDirectory(path) {
+        const stats = fs.statSync(path);
+        return stats.isDirectory();
+    }
+    
+    static isFile(path) {
+        const stats = fs.statSync(path);
+        return stats.isFile();
+    }
+    
     static deepClone(data) {
         return JSON.parse(JSON.stringify(data))
     }

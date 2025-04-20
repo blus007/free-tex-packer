@@ -90,8 +90,27 @@ class ImagesList extends React.Component {
         e.preventDefault();
         
         if(e.dataTransfer.files.length) {
+            let files = e.dataTransfer.files;
+            let images = files;
+            if (FileSystem.isApp()) {
+                images = [];
+                for (let i = 0; i < files.length; i++) {
+                    let file = files[i];
+                    if (!file.path) {
+                        images.push(file);
+                        continue;
+                    }
+                    let path = FileSystem.fixPath(file.path);
+                    if (FileSystem.isDirectory(path)) {
+                        FileSystem.loadFolder(path, this.loadImagesComplete);
+                    } else {
+                        images.push(file);
+                    }
+                }
+            }
+            
             let loader = new LocalImagesLoader();
-            loader.load(e.dataTransfer.files, null, data => this.loadImagesComplete(data));
+            loader.load(images, null, data => this.loadImagesComplete(data));
         }
         
         return false;
