@@ -69,6 +69,7 @@
         "electron-log": "^5.3.4",
         "electron-updater": "^6.6.2",
         "electron-window-state": "^5.0.3",
+        "electron-localshortcut": "^3.2.1",
         "optimist": "^0.6.1",
         "tinify": "^1.8.0"
     }

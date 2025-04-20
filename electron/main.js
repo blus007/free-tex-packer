@@ -3,6 +3,7 @@ const tinify = require('tinify');
 const argv = require('optimist').argv;
 const windowStateKeeper = require('electron-window-state');
 const {app, BrowserWindow, ipcMain, Menu, shell} = require('electron');
+const localShortcut = require('electron-localshortcut');
 const {autoUpdater} = require("electron-updater");
 const remote = require('@electron/remote/main');
 
@@ -48,6 +49,7 @@ function createWindow() {
     remote.enable(mainWindow.webContents);
 
     mainWindowState.manage(mainWindow);
+    buildShortcuts();
 
     mainWindow.on('page-title-updated', function(e) {
         e.preventDefault();
@@ -273,7 +275,7 @@ function buildMenu() {
         ]
     });
     
-    //if(argv.env === 'development') 
+    if(argv.env === 'development') 
     {
         template.push({label: 'Dev', submenu: [
             {label: 'Console', click: () => mainWindow.webContents.openDevTools()},
@@ -283,6 +285,16 @@ function buildMenu() {
     
     let menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
+}
+
+function buildShortcuts() {
+    const shortcuts = {
+        'F12': () => mainWindow.webContents.toggleDevTools()
+    };
+
+    Object.keys(shortcuts).forEach(key => {
+        localShortcut.register(mainWindow, key, shortcuts[key]);
+    });
 }
 
 function installCLI() {
