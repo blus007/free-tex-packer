@@ -8,8 +8,7 @@
     "scripts": {
         "start": "electron . --env development",
         "start-prod": "electron .",
-        "build": "electron-builder --ia32 --x64",
-        "build-publish": "electron-builder --ia32 --x64 --publish always"
+        "build": "electron-builder --ia32 --x64"
     },
     "build": {
         "appId": "com.free.tex.packer",

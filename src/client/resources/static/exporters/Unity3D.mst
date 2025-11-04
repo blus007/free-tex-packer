@@ -7,6 +7,8 @@
 # created with {{appInfo.displayName}} v{{appInfo.version}}
 # {{{appInfo.url}}}
 #
+# $TexturePacker:SmartUpdate:{{dynamicInfo.smartUpdate}}$
+#
 :format=40300
 :texture={{config.imageFile}}
 :size={{config.imageWidth}}x{{config.imageHeight}}

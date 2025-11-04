@@ -74,7 +74,7 @@ class PackProperties extends React.Component {
     applyOptionsDefaults(data) {
         if(!data) data = {};
         
-        data.textureName = this.packOptions.textureName || data.textureName || "texture";
+        data.textureName = data.textureName || "texture";
         data.textureFormat = data.textureFormat || "png";
         data.removeFileExtension = data.removeFileExtension === undefined ? false : data.removeFileExtension;
         data.prependFolderName = data.prependFolderName === undefined ? true : data.prependFolderName;
@@ -85,7 +85,7 @@ class PackProperties extends React.Component {
         data.tinify = data.tinify === undefined ? false : data.tinify;
         data.tinifyKey = data.tinifyKey === undefined ? "" : data.tinifyKey;
         data.fileName = data.fileName || "pack-result";
-        data.savePath = this.packOptions.savePath || data.savePath || "";
+        data.savePath = data.savePath || this.packOptions.savePath || "";
         data.width = data.width === undefined ? 2048 : data.width;
         data.height = data.height === undefined ? 2048 : data.height;
         data.fixedSize = data.fixedSize === undefined ? false : data.fixedSize;

@@ -4,6 +4,7 @@ import {GET} from '../utils/ajax';
 import {strNumPairCompare} from '../utils/common';
 import mustache from 'mustache';
 import wax from '@jvitela/mustache-wax';
+import cryptojs from 'crypto-js';
 
 wax(mustache);
 
@@ -133,13 +134,30 @@ function prepareData(data, options) {
     return {rects: ret, config: opt};
 }
 
+function getCurrentTimeString() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 function startExporter(exporter, data, options) {
     return new Promise((resolve, reject) => {
         let {rects, config} = prepareData(data, options);
+        const nowStr = getCurrentTimeString();
+        const hash1 = cryptojs.MD5(`${nowStr}-${Math.random() * 100000000}`).toString();
+        const hash2 = cryptojs.MD5(`${nowStr}-${Math.random() * 100000000}`).toString();
+        const hash3 = cryptojs.MD5(`${nowStr}-${Math.random() * 100000000}`).toString();
+        const dynamicInfo = {smartUpdate: `${hash1}:${hash2}:${hash3}`};
         let renderOptions = {
             rects: rects,
             config: config,
-            appInfo: appInfo
+            appInfo: appInfo,
+            dynamicInfo: dynamicInfo
         };
         
         if(exporter.content) {
